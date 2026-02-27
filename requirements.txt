@@ -4,3 +4,4 @@ mfrc522
 RPi.GPIO
 pygame
 flask-login
+werkzeug

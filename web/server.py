@@ -6,8 +6,7 @@ from werkzeug.utils import secure_filename
 import threading
 import time
 from flask import Response
-sys.path.append("../app")
-from rfid import poll_rfid, get_last_uid, clear_last_uid
+#from rfid import poll_rfid, get_last_uid, clear_last_uid
 
 sys.path.append("../app")
 
@@ -140,6 +139,6 @@ def clear_tag():
     clear_last_uid()
     return jsonify({"status": "cleared"})
 
-rfid_thread = threading.Thread(target=poll_rfid, daemon=True)
-rfid_thread.start()
+#rfid_thread = threading.Thread(target=poll_rfid, daemon=True)
+#rfid_thread.start()
 app.run(host="0.0.0.0", port=5000)
