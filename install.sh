@@ -11,8 +11,8 @@ sudo raspi-config nonint do_spi 0
 sudo raspi-config nonint do_i2c 0
 
 echo "Creating virtual environment..."
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 
 echo "Installing Python dependencies..."
 pip install --upgrade pip
