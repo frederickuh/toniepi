@@ -8,7 +8,8 @@ import time
 from flask import Response
 #from rfid import poll_rfid, get_last_uid, clear_last_uid
 
-sys.path.append("../app")
+BASE_PATH = pathlib.Path(__name__).parent.resolve()
+sys.path.append("{BASE_PATH}/app")
 
 from storage import get_tag_map, save_tag_map
 from config import AUDIO_FOLDER
