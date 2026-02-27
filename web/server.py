@@ -10,13 +10,13 @@ from flask import Response
 
 import pathlib
 BASE_PATH = pathlib.Path(__name__).parent.resolve()
-sys.path.append("{BASE_PATH}/app")
+sys.path.append(f"{BASE_PATH}/app")
 
 from storage import get_tag_map, save_tag_map
 from config import AUDIO_FOLDER
 from auth import login_manager, authenticate
 
-UPLOAD_FOLDER = f"../{AUDIO_FOLDER}"
+UPLOAD_FOLDER = f"{BASE_PATH}/{AUDIO_FOLDER}"
 ALLOWED_EXTENSIONS = {"mp3", "wav", "ogg"}
 
 app = Flask(__name__)
@@ -103,7 +103,11 @@ def api_upload():
         return jsonify({"error": "Invalid file"}), 400
 
     filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+    save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+    print(save_path)
+    file.save(save_path)
     return jsonify({"status": "uploaded"})
 
 
@@ -127,7 +131,8 @@ def stream():
     def event_stream():
         last_sent = None
         while True:
-            uid = get_last_uid()
+            #uid = get_last_uid()
+            uid = 'test'
             if uid and uid != last_sent:
                 yield f"data: {uid}\n\n"
                 last_sent = uid
