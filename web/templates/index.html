@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ToniePi Admin</title>
+</head>
+<body>
+
+<h1>ToniePi Admin</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul style="color: green;">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<h2>Upload Audio File</h2>
+<form method="POST" action="/upload" enctype="multipart/form-data">
+  <input type="file" name="file" required>
+  <button type="submit">Upload</button>
+</form>
+
+<hr>
+
+<h2>Assign Tag to Audio</h2>
+<form method="POST" action="/assign">
+  UID:
+  <input name="uid" required>
+  <br><br>
+
+  Select Audio:
+  <select name="filename">
+    {% for file in audio_files %}
+      <option value="{{ file }}">{{ file }}</option>
+    {% endfor %}
+  </select>
+
+  <br><br>
+  <button type="submit">Assign</button>
+</form>
+
+<hr>
+
+<h2>Current Mappings</h2>
+<ul>
+  {% for uid, file in tags.items() %}
+    <li>{{ uid }} → {{ file }}</li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>

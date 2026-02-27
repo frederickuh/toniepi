@@ -1,0 +1,6 @@
+flask
+boto3
+mfrc522
+RPi.GPIO
+pygame
+flask-login
