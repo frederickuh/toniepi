@@ -8,6 +8,7 @@ import time
 from flask import Response
 #from rfid import poll_rfid, get_last_uid, clear_last_uid
 
+import pathlib
 BASE_PATH = pathlib.Path(__name__).parent.resolve()
 sys.path.append("{BASE_PATH}/app")
 
