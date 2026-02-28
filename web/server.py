@@ -6,12 +6,13 @@ from werkzeug.utils import secure_filename
 import threading
 import time
 from flask import Response
-#from rfid import poll_rfid, get_last_uid, clear_last_uid
+import random, string
 
 import pathlib
 BASE_PATH = pathlib.Path(__name__).parent.resolve()
 sys.path.append(f"{BASE_PATH}/app")
 
+from rfid import poll_rfid, get_last_uid, clear_last_uid
 from storage import get_tag_map, save_tag_map
 from config import AUDIO_FOLDER
 from auth import login_manager, authenticate
@@ -90,7 +91,7 @@ def api_get_tags():
 def api_set_tag():
     data = request.json
     tag_map = get_tag_map()
-    tag_map[data["uid"]] = data["filename"]
+    tag_map[data["uid"]] = {"filename": data["filename"], "key": data["uid"]}
     save_tag_map(tag_map)
     return jsonify({"status": "ok"})
 
@@ -105,9 +106,13 @@ def api_upload():
     filename = secure_filename(file.filename)
 
     save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-
-    print(save_path)
     file.save(save_path)
+
+    tag_map = get_tag_map()
+
+    temp_tag = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    tag_map[temp_tag] = filename
+    save_tag_map(tag_map)
     return jsonify({"status": "uploaded"})
 
 
@@ -131,8 +136,8 @@ def stream():
     def event_stream():
         last_sent = None
         while True:
-            #uid = get_last_uid()
-            uid = 'test'
+            uid = get_last_uid()
+            #uid = 'test'
             if uid and uid != last_sent:
                 yield f"data: {uid}\n\n"
                 last_sent = uid
@@ -146,6 +151,6 @@ def clear_tag():
     clear_last_uid()
     return jsonify({"status": "cleared"})
 
-#rfid_thread = threading.Thread(target=poll_rfid, daemon=True)
-#rfid_thread.start()
+rfid_thread = threading.Thread(target=poll_rfid, daemon=True)
+rfid_thread.start()
 app.run(host="0.0.0.0", port=5000)

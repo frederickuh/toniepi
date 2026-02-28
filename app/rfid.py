@@ -1,4 +1,4 @@
-from mfrc522 import SimpleMFRC522
+from rfidpy import SimpleMFRC522
 import threading
 import time
 

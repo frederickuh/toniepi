@@ -55,9 +55,9 @@
 
   <h4>Audio Files</h4>
   <ul id="fileList" class="list-group">
-    {% for f in audio_files %}
+    {% for f in tags %}
     <li class="list-group-item d-flex justify-content-between">
-      {{ f }}
+      {{ f.filename }}
       <button class="btn btn-sm btn-danger" onclick="deleteFile('{{ f }}')">Delete</button>
     </li>
     {% endfor %}
