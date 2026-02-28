@@ -1,7 +1,6 @@
 numpy
 flask
 boto3
-RPi.GPIO
 pygame
 flask-login
 werkzeug
